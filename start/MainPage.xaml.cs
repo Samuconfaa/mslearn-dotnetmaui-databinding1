@@ -1,4 +1,7 @@
-﻿namespace WeatherClient;
+﻿using WeatherClient.Models;
+using WeatherClient.Services;
+
+namespace WeatherClient;
 
 public partial class MainPage : ContentPage
 {
@@ -12,7 +15,7 @@ public partial class MainPage : ContentPage
         btnRefresh.IsEnabled = false;
         actIsBusy.IsRunning = true;
 
-        Models.WeatherData weatherData = await Services.WeatherServer.GetWeather(txtPostalCode.Text);
+        WeatherData weatherData = await WeatherServer.GetWeather(txtPostalCode.Text);
 
         lblWind.Text = weatherData.Wind.ToString();
         lblHumidity.Text = weatherData.Humidity.ToString();
@@ -21,8 +24,8 @@ public partial class MainPage : ContentPage
 
         imgCondition.Source = weatherData.Condition switch
         {
-            Models.WeatherType.Sunny => ImageSource.FromFile("sunny.png"),
-            Models.WeatherType.Cloudy => ImageSource.FromFile("cloud.png"),
+            WeatherType.Sunny => ImageSource.FromFile("sunny.png"),
+            WeatherType.Cloudy => ImageSource.FromFile("cloud.png"),
             _ => ImageSource.FromFile("question.png")
         };
 
